@@ -6,11 +6,6 @@ export const SafeAreaStack = (props: StackProps) => {
   const insets = useSafeAreaInsets()
 
   return (
-    <Stack
-      backgroundColor="$backgroundStrong"
-      paddingTop={Math.max(insets.top, 16)}
-      paddingBottom={Math.max(insets.bottom, 16)}
-      {...props}
-    />
+    <Stack backgroundColor="$backgroundStrong" paddingTop={Math.max(insets.top, 16)} {...props} />
   )
 }
