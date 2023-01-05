@@ -43,7 +43,8 @@ export function WatchListScreen() {
     <SafeAreaStack f={1}>
       <Stack f={1} p="$4">
         <XStack alignItems="center" jc="space-between">
-          <Button padding={0} chromeless icon={<AlignLeft size={24} />} />
+          <XStack />
+          {/* <Button padding={0} chromeless icon={<AlignLeft size={24} />} /> */}
           <Button themeInverse size="$2" icon={<Plus size={18} />} circular {...searchLinkProps} />
         </XStack>
         {!!watchlist.length && (

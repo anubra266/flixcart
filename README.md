@@ -1,14 +1,8 @@
-# Tamagui + Solito + Next + Expo Monorepo
-
-```sh
-npm create tamagui
-```
+# flixcart
 
 ## 🔦 About
 
-This monorepo is a starter for an Expo + Next.js + Tamagui + Solito app.
-
-Many thanks to [@FernandoTheRojo](https://twitter.com/fernandotherojo) for the Solito starter monorepo which this was forked from. Check out his [talk about using expo + next together at Next.js Conf 2021](https://www.youtube.com/watch?v=0lnbdRweJtA).
+Mobile app for managing movies and TV Shows with daily reminders
 
 ## 📦 Included packages
 
@@ -32,24 +26,17 @@ The main apps are:
     - `provider` (all the providers that wrap the app, and some no-ops for Web.)
     - `navigation` Next.js has a `pages/` folder. React Native doesn't. This folder contains navigation-related code for RN. You may use it for any navigation code, such as custom links.
 
-You can add other folders inside of `packages/` if you know what you're doing and have a good reason to.
-
 ## 🏁 Start the app
 
 - Install dependencies: `yarn`
 
+- Expo local dev: `yarn native`
+****
 - Next.js local dev: `yarn web`
 
 To run with optimizer on in dev mode (just for testing, it's faster to leave it off): `yarn web:extract`. To build for production `yarn:prod`.
 
 To see debug output to verify the compiler, add `// debug` as a comment to the top of any file.
-
-- Expo local dev: `yarn native`
-
-
-## Developing
-
-We've added `packages/ui` to show an example of [building your own design system](https://tamagui.dev/docs/guides/design-systems).
 
 ## UI Kit
 
