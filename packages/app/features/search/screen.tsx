@@ -1,4 +1,15 @@
-import { Button, Input, useDebounceValue, ScrollView, XStack, YStack, Text, H2 } from '@my/ui'
+import {
+  Button,
+  Input,
+  useDebounceValue,
+  ScrollView,
+  XStack,
+  YStack,
+  Text,
+  H2,
+  Card,
+  Circle,
+} from '@my/ui'
 import { SafeAreaStack } from '@my/ui/src'
 import { ChevronLeft, Search } from '@tamagui/lucide-icons'
 import { useQuery } from 'react-query'
@@ -6,14 +17,25 @@ import { fetchShows } from 'app/api/fetchShows'
 import { useRefreshOnFocus } from 'app/hooks/useRefreshOnFocus'
 import { WatchListItem } from 'app/components/WatchListItem'
 import { fetchMovies } from 'app/api/fetchMovies'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { createParam } from 'solito'
 import { useLink } from 'solito/link'
+import NetInfo from '@react-native-community/netinfo'
 
 const { useParam } = createParam<{ id: string }>()
 
 export function SearchScreen() {
   const linkProps = useLink({ href: '/' })
+
+  const [online, setOnline] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      setOnline(state.isConnected)
+    })
+
+    return () => unsubscribe()
+  }, [])
 
   const [query, setQuery] = useState('')
   const debouncedQuery = useDebounceValue(query, 500)
@@ -43,7 +65,7 @@ export function SearchScreen() {
             size="$2"
             padding={0}
             chromeless
-            icon={<ChevronLeft color="royalblue" size={24} />}
+            icon={<ChevronLeft color="gold" size={24} />}
             {...linkProps}
           />
           <H2>Search</H2>
@@ -60,6 +82,14 @@ export function SearchScreen() {
           />
           <Button size="$2" chromeless icon={<Search size={18} />} />
         </XStack>
+        {!online && (
+          <Card mt="$4" p="$4" theme="red_Card" backgroundColor="$red6Dark" elevate bordered>
+            <XStack ai="center" space="$3">
+              <Circle size={14} backgroundColor="$red9Dark" />
+              <Text color="$color">Device is offline</Text>
+            </XStack>
+          </Card>
+        )}
         <ScrollView>
           <YStack space="$4" marginTop="$4">
             {data?.map((show) => {
@@ -71,12 +101,6 @@ export function SearchScreen() {
           </YStack>
         </ScrollView>
       </SafeAreaStack>
-      {/* <YStack f={1} jc="center" ai="center" space>
-        <Paragraph ta="center" fow="800">{`User ID: ${id}`}</Paragraph>
-        <Button {...linkProps} icon={ChevronLeft}>
-          Go Home
-        </Button>
-      </YStack> */}
     </>
   )
 }

@@ -1,35 +1,43 @@
-import {
-  Button,
-  H1,
-  Paragraph,
-  Separator,
-  Sheet,
-  XStack,
-  YStack,
-  Stack,
-  Input,
-  SafeAreaStack,
-  useDebounceValue,
-  ScrollView,
-} from '@my/ui'
-import { AlignLeft, Search, Plus } from '@tamagui/lucide-icons'
-import React, { useState } from 'react'
+import { Button, H1, Paragraph, Separator, XStack, YStack, Stack, SafeAreaStack } from '@my/ui'
+import { AlignLeft, Plus } from '@tamagui/lucide-icons'
+import React from 'react'
 
-import { useQuery } from 'react-query'
-import { fetchShows } from 'app/api/fetchShows'
-import { useRefreshOnFocus } from 'app/hooks/useRefreshOnFocus'
 import { WatchListItem } from 'app/components/WatchListItem'
-import { fetchMovies } from 'app/api/fetchMovies'
+import { HoldItem } from 'react-native-hold-menu'
 
 import { useStore } from 'app/hooks/useStore'
 import { useLink } from 'solito/link'
+import { useRouter } from 'solito/router'
+import { ItemType } from 'app/helpers/constants'
+import * as Haptics from 'expo-haptics'
 
 export function WatchListScreen() {
-  const { watchlist } = useStore()
+  const { watchlist, removeItemFromWatchList } = useStore()
 
   const searchLinkProps = useLink({
     href: `/search`,
   })
+
+  const { push } = useRouter()
+
+  const MenuItems = [
+    {
+      text: 'View',
+      icon: 'eye',
+      onPress: (itemId: string, itemType: ItemType) => {
+        push(`/detail/${itemType.toLocaleLowerCase()}/${itemId}`)
+      },
+    },
+    {
+      text: 'Remove',
+      icon: 'trash',
+      isDestructive: true,
+      onPress: (itemId: string) => {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+        removeItemFromWatchList(itemId)
+      },
+    },
+  ]
 
   return (
     <SafeAreaStack f={1}>
@@ -39,16 +47,31 @@ export function WatchListScreen() {
           <Button themeInverse size="$2" icon={<Plus size={18} />} circular {...searchLinkProps} />
         </XStack>
         {!!watchlist.length && (
-          <YStack f={1} width="100%" space="$4">
+          <YStack f={1} width="100%" space="$1">
             {watchlist.map((item) => (
-              <WatchListItem
-                item={item}
+              <HoldItem
+                menuAnchorPosition="top-left"
+                hapticFeedback="Heavy"
+                items={MenuItems}
                 key={item.id}
-                onPress={() => {}}
-                animation={undefined}
-                hoverStyle={undefined}
-                pressStyle={undefined}
-              />
+                actionParams={{
+                  View: [item.id, item.type],
+                  Remove: [item.id],
+                }}
+              >
+                <WatchListItem
+                  paddingVertical="$2"
+                  height={120}
+                  backgroundColor="$backgroundStrong"
+                  item={item}
+                  pressStyle={{ scale: 1.2 }}
+                  onPress={() => {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+                    push(`/detail/${item.type.toLocaleLowerCase()}/${item.id}`)
+                  }}
+                  hoverStyle={undefined}
+                />
+              </HoldItem>
             ))}
           </YStack>
         )}

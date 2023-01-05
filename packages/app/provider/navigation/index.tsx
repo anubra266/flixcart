@@ -13,8 +13,8 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
             screens: {
               home: '',
               'user-detail': 'user/:id',
-              'show-detail': 'show/:id',
-              'search': 'search/',
+              'item-detail': 'detail/:type/:id',
+              search: 'search/',
             },
           },
         }),

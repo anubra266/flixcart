@@ -8,6 +8,9 @@ import { Provider } from 'app/provider'
 import { Platform } from 'react-native'
 import { QueryClient, QueryClientProvider, focusManager } from 'react-query'
 import { StatusBar } from 'expo-status-bar'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { HoldMenuProvider } from 'react-native-hold-menu'
+import FeatherIcon from 'react-native-vector-icons/Feather'
 
 function onAppStateChange(status) {
   // React Query already supports in web browser refetch on window focus by default
@@ -37,7 +40,11 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Provider defaultTheme="dark">
-        <NativeNavigation />
+        <HoldMenuProvider theme="dark" iconComponent={FeatherIcon}>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <NativeNavigation />
+          </GestureHandlerRootView>
+        </HoldMenuProvider>
       </Provider>
       <StatusBar />
     </QueryClientProvider>

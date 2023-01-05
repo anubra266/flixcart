@@ -7,47 +7,56 @@ export type Genre = {
   name: string
 }
 
+type Detail = {
+  runtime: number
+  status: string
+  imdb_id: string
+  genres: Genre[]
+}
+
 const API_KEY = 'c28cfea5d4209dab49bfe5cae6b233d2'
 
-export const fetchGenres = async (): Promise<Genre[]> => {
-  const { data } =
-    await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US
+export const fetchDetails = async (id: string): Promise<Detail> => {
+  const { data } = await axios.get(
+    `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`
+  )
 
-  `)
-
-  return data.genres
+  return data
 }
 
 export const fetchMovies = async (q: string): Promise<WatchListItem[]> => {
-  const { data } =
-    await axios.get(`https://api.themoviedb.org/3/search/movie?query=${q}&api_key=${API_KEY}&language=en-US&page=1&include_adult=false
-  `)
+  const { data } = await axios.get(
+    `https://api.themoviedb.org/3/search/movie?query=${q}&api_key=${API_KEY}&language=en-US&page=1&include_adult=false`
+  )
 
-  const allGenres = await fetchGenres()
+  const movies = await Promise.all(
+    data.results.map(async (res) => {
+      const image = res.poster_path ? `https://image.tmdb.org/t/p/w500/${res.poster_path}` : null
+      const details = await fetchDetails(res.id)
 
-  return data.results.map((res) => {
-    const genres = res.genre_ids.map((id) => allGenres.find((genre) => genre.id === id)?.name)
-
-    const image = res.poster_path ? `https://image.tmdb.org/t/p/w500/${res.poster_path}` : null
-    return {
-      ...res,
-      name: res.title,
-      language: res.original_language.toUpperCase(),
-      image,
-      genres,
-      summary: res.overview,
-      type: ItemType.MOVIE,
-      episodes: [
-        {
-          id: 0,
-          name: res.original_title,
-          season: 1,
-          runtime: null,
-          image,
-          summary: res.overview,
-          airDate: new Date(res.release_date),
-        },
-      ],
-    }
-  })
+      return {
+        ...res,
+        name: res.title,
+        language: res.original_language.toUpperCase(),
+        image,
+        genres: details.genres.map((genre) => genre.name),
+        summary: res.overview,
+        type: ItemType.MOVIE,
+        episodes: [
+          {
+            id: 0,
+            name: res.original_title,
+            season: 1,
+            runtime: details.runtime,
+            image,
+            summary: res.overview,
+            airDate: new Date(res.release_date),
+            status: details.status,
+          },
+        ],
+      }
+    })
+  )
+  console.log('movies :>> ', movies)
+  return movies
 }

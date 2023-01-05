@@ -19,5 +19,7 @@ export type ShowEpisode = {
   runtime: number | null
   image: string | null
   summary: string | null
-  airDate: Date
+  airDate: Date | null
+  status: string | null
+  watched?: boolean
 }

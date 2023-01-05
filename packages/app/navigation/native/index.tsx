@@ -1,10 +1,10 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { HomeScreen } from '../../features/home/screen'
-import { UserDetailScreen } from '../../features/user/detail-screen'
+// import { HomeScreen } from '../../features/home/screen'
+// import { UserDetailScreen } from '../../features/user/detail-screen'
 
-import { ShowDetailScreen } from '../../features/show/detail-screen'
+import { ItemDetailScreen } from 'app/features/item/detail-screen'
 import { WatchListScreen } from 'app/features/watchlist/screen'
 import { SearchScreen } from 'app/features/search/screen'
 
@@ -14,8 +14,9 @@ const Stack = createNativeStackNavigator<{
   'user-detail': {
     id: string
   }
-  'show-detail': {
+  'item-detail': {
     id: string
+    type: string
   }
 }>()
 
@@ -37,8 +38,8 @@ export function NativeNavigation() {
         }}
       />
       <Stack.Screen
-        name="show-detail"
-        component={ShowDetailScreen}
+        name="item-detail"
+        component={ItemDetailScreen}
         options={{
           headerShown: false,
         }}
