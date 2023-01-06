@@ -10,6 +10,7 @@ import { useLink } from 'solito/link'
 import { useRouter } from 'solito/router'
 import { ItemType } from 'app/helpers/constants'
 import * as Haptics from 'expo-haptics'
+import { useNotification } from 'app/hooks/useNotification'
 
 export function WatchListScreen() {
   const { watchlist, removeItemFromWatchList } = useStore()
@@ -19,6 +20,9 @@ export function WatchListScreen() {
   })
 
   const { push } = useRouter()
+
+  // So the apps asks for permissions when the user first opens the app
+  useNotification()
 
   const MenuItems = [
     {

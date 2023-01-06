@@ -1,8 +1,10 @@
 {
   "build": {
     "development": {
+      "developmentClient": true,
       "distribution": "internal",
       "android": {
+        "image": "ubuntu-18.04-jdk-11-ndk-r19c",
         "buildType": "apk"
       },
       "ios": {
@@ -14,6 +16,14 @@
       "distribution": "store",
       "android": {
         "buildType": "app-bundle"
+      }
+    },
+
+    "development-simulator": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
       }
     }
   }

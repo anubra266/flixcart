@@ -12,6 +12,20 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { HoldMenuProvider } from 'react-native-hold-menu'
 import FeatherIcon from 'react-native-vector-icons/Feather'
 
+import * as Notifications from 'expo-notifications'
+
+
+// Notifications.scheduleNotificationAsync({
+//   content: {
+//     title: 'Remember to drink water!',
+//   },
+//   trigger: {
+//     seconds: 60,
+//     //   seconds: 60 * 20,
+//     // repeats: true,
+//   },
+// })
+
 function onAppStateChange(status) {
   // React Query already supports in web browser refetch on window focus by default
   if (Platform.OS !== 'web') {
