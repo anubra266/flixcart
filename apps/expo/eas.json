@@ -17,14 +17,6 @@
       "android": {
         "buildType": "app-bundle"
       }
-    },
-
-    "development-simulator": {
-      "developmentClient": true,
-      "distribution": "internal",
-      "ios": {
-        "simulator": true
-      }
     }
   }
 }

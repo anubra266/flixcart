@@ -7962,6 +7962,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"flixcart@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "flixcart@workspace:."
+  dependencies:
+    "@babel/runtime": ^7.18.9
+    "@manypkg/cli": ^0.19.1
+    eslint: ^8.21.0
+    prettier: ^2.7.1
+    turbo: ^1.4.2
+    typescript: ^4.7.4
+  languageName: unknown
+  linkType: soft
+
 "flow-parser@npm:0.*":
   version: 0.193.0
   resolution: "flow-parser@npm:0.193.0"
@@ -10793,19 +10806,6 @@ __metadata:
   checksum: 59d4b5ebff6c265b452d6630ae8873d573c82e36fdc1ed9c34c7901a0bf2d3d357022f49db8e9bded127b743f709c7ef7befec249a2b3967578d649a8029aa06
   languageName: node
   linkType: hard
-
-"myapp-monorepo@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "myapp-monorepo@workspace:."
-  dependencies:
-    "@babel/runtime": ^7.18.9
-    "@manypkg/cli": ^0.19.1
-    eslint: ^8.21.0
-    prettier: ^2.7.1
-    turbo: ^1.4.2
-    typescript: ^4.7.4
-  languageName: unknown
-  linkType: soft
 
 "mz@npm:^2.7.0":
   version: 2.7.0

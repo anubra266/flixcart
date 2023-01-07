@@ -14,7 +14,6 @@ import FeatherIcon from 'react-native-vector-icons/Feather'
 
 import * as Notifications from 'expo-notifications'
 
-
 // Notifications.scheduleNotificationAsync({
 //   content: {
 //     title: 'Remember to drink water!',
