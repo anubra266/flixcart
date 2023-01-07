@@ -57,6 +57,5 @@ export const fetchMovies = async (q: string): Promise<WatchListItem[]> => {
       }
     })
   )
-  console.log('movies :>> ', movies)
   return movies
 }
