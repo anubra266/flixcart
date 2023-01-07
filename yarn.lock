@@ -7468,12 +7468,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-haptics@npm:^11.2.0":
-  version: 11.3.0
-  resolution: "expo-haptics@npm:11.3.0"
+"expo-haptics@npm:^12.0.1":
+  version: 12.1.0
+  resolution: "expo-haptics@npm:12.1.0"
   peerDependencies:
     expo: "*"
-  checksum: b70692deeb1d36f4d4f9ddfc78dcc6f66fcfe0bf4be7994921eec811b9c6d7a0621959e68e03a73beac998986f8fd2e8988bd9f9827f08e86231adf3ce30deeb
+  checksum: e4de0210c3029fc366468a924d857c66e1aa6c9517a493895b65e7ba78c6bf5832a78fcf53bdf274b89ff8ab2f607a8c78ac95b40e42a6a586dc205acf66fc73
   languageName: node
   linkType: hard
 
