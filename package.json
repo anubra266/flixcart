@@ -1,5 +1,5 @@
 {
-  "name": "myapp-monorepo",
+  "name": "flixcart",
   "private": true,
   "workspaces": [
     "apps/*",
