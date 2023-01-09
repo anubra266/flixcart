@@ -11,6 +11,7 @@ const fetchEpisodes = async (id: string): Promise<ShowEpisode[]> => {
     runtime: res.runtime,
     image: res.image?.original,
     summary: res.summary,
+    // airDate: new Date('2023-01-09T15:42:00.000Z'),
     airDate: new Date(res.airstamp),
   }))
   return transformedData
