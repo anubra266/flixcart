@@ -26,12 +26,19 @@ The main apps are:
     - `provider` (all the providers that wrap the app, and some no-ops for Web.)
     - `navigation` Next.js has a `pages/` folder. React Native doesn't. This folder contains navigation-related code for RN. You may use it for any navigation code, such as custom links.
 
+## API for movies
+
+- Copy `.env.example` in `apps/expo` to `.env`
+- Get an API key from themoviedb.org and add set it as `THE_MOVIE_DB_API_KEY` in .env
+
 ## 🏁 Start the app
 
 - Install dependencies: `yarn`
 
 - Expo local dev: `yarn native`
-****
+
+---
+
 - Next.js local dev: `yarn web`
 
 To run with optimizer on in dev mode (just for testing, it's faster to leave it off): `yarn web:extract`. To build for production `yarn:prod`.

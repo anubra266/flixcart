@@ -6418,6 +6418,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv@npm:^16.0.3":
+  version: 16.0.3
+  resolution: "dotenv@npm:16.0.3"
+  checksum: afcf03f373d7a6d62c7e9afea6328e62851d627a4e73f2e12d0a8deae1cd375892004f3021883f8aec85932cd2834b091f568ced92b4774625b321db83b827f8
+  languageName: node
+  linkType: hard
+
 "duplexer3@npm:^0.1.4":
   version: 0.1.5
   resolution: "duplexer3@npm:0.1.5"
@@ -7290,6 +7297,7 @@ __metadata:
     react: 18.0.0
     react-dom: ^18.2.0
     react-native: 0.70.5
+    react-native-dotenv: ^3.4.7
     react-native-event-listeners: ^1.0.7
     react-native-gesture-handler: ~2.8.0
     react-native-hold-menu: ^0.1.5
@@ -12183,6 +12191,18 @@ __metadata:
     jscodeshift: ^0.13.1
     nullthrows: ^1.1.1
   checksum: 2a50ad71e09bc8cbb3694057cf47d6e9665c16f3968d1dc2b71e83c8c4e7be3b07b74bea08750ec9c8f6c60e6c746a5f695963c8694e5a76edcbce35a53a6a06
+  languageName: node
+  linkType: hard
+
+"react-native-dotenv@npm:^3.4.7":
+  version: 3.4.7
+  resolution: "react-native-dotenv@npm:3.4.7"
+  dependencies:
+    dotenv: ^16.0.3
+  peerDependencies:
+    "@babel/core": ^7.20.5
+    "@babel/runtime": ^7.20.6
+  checksum: 87148432ef19305053813bdda96e6bc7fa08c3dd21a0983f0a636981b278f14ea26eb6ab5c7fdbdab60b00848dca9a49e7030b267578e3f8b18bc79c89245752
   languageName: node
   linkType: hard
 

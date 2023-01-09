@@ -2,6 +2,8 @@ import { ItemType } from 'app/helpers/constants'
 import { WatchListItem } from 'app/helpers/types'
 import axios from 'axios'
 
+import { THE_MOVIE_DB_API_KEY } from '@env'
+
 export type Genre = {
   id: string
   name: string
@@ -14,7 +16,7 @@ type Detail = {
   genres: Genre[]
 }
 
-const API_KEY = 'c28cfea5d4209dab49bfe5cae6b233d2'
+const API_KEY = THE_MOVIE_DB_API_KEY
 
 export const fetchDetails = async (id: string): Promise<Detail> => {
   const { data } = await axios.get(
