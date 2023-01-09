@@ -7,7 +7,8 @@ import { Check, ChevronLeft, X } from '@tamagui/lucide-icons'
 import * as Haptics from 'expo-haptics'
 import { DEFAULT_IMAGE } from 'app/helpers/constants'
 import { toHoursAndMinutes, transformDate } from 'app/helpers/date'
-import { useStore } from 'app/hooks/useStore'
+import { useRouter } from 'solito/router'
+import { removeItemFromWatchList, toggleEpisodeStatus } from 'app/store/actions'
 
 type MovieDetailProps = {
   item: WatchListItem
@@ -23,7 +24,7 @@ export function MovieDetail(props: MovieDetailProps) {
 
   const runTime = toHoursAndMinutes(movie?.runtime!)
 
-  const { removeItemFromWatchList, toggleEpisodeStatus } = useStore()
+  const { push } = useRouter()
 
   return (
     <YStack padding="$4">
@@ -75,12 +76,12 @@ export function MovieDetail(props: MovieDetailProps) {
             theme={movie?.watched ? 'gray_Button' : 'green_Button'}
             icon={movie?.watched ? <X size={24} /> : <Check size={24} />}
             onPress={() => {
-              toggleEpisodeStatus(item.id, movie?.id!)
               Haptics.notificationAsync(
                 movie?.watched
                   ? Haptics.NotificationFeedbackType.Warning
                   : Haptics.NotificationFeedbackType.Success
               )
+              toggleEpisodeStatus(item.id, movie?.id!)
             }}
           >
             Mark {movie?.watched ? 'Unwatched' : 'Watched'}
@@ -89,8 +90,9 @@ export function MovieDetail(props: MovieDetailProps) {
             theme="red_Button"
             icon={<X size={24} />}
             onPress={() => {
-              removeItemFromWatchList(item.id)
               Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+              removeItemFromWatchList(item.id)
+              push('/')
             }}
           >
             Remove

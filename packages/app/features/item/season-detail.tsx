@@ -3,7 +3,7 @@ import { Check } from '@tamagui/lucide-icons'
 import { EpisodeDetail } from 'app/features/item/episode-detail'
 
 import { ShowEpisode, WatchListItem } from 'app/helpers/types'
-import { useStore } from 'app/hooks/useStore'
+import { setSeasonStatus } from 'app/store/actions'
 
 import * as Haptics from 'expo-haptics'
 
@@ -18,8 +18,6 @@ export function SeasonDetail(props: SeasonDetailProps) {
   const [season, episodes] = seasonGroup
 
   const isWatched = episodes.every((episode) => episode.watched)
-
-  const { setSeasonStatus } = useStore()
 
   const toggleSeasonWatched = () => {
     Haptics.notificationAsync(

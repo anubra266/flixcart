@@ -20,7 +20,6 @@ import { fetchMovies } from 'app/api/fetchMovies'
 import { useState, useEffect } from 'react'
 import { useLink } from 'solito/link'
 import NetInfo from '@react-native-community/netinfo'
-import { useNotification } from 'app/hooks/useNotification'
 
 export function SearchScreen() {
   const linkProps = useLink({ href: '/' })
@@ -55,8 +54,6 @@ export function SearchScreen() {
   useRefreshOnFocus(refetch, debouncedQuery)
   useRefreshOnFocus(refetchMovies, debouncedQuery)
 
-  const { schedulePushNotification } = useNotification()
-
   return (
     <>
       <SafeAreaStack f={1} paddingHorizontal="$4">
@@ -80,14 +77,7 @@ export function SearchScreen() {
             onChangeText={(value) => setQuery(value)}
             selectTextOnFocus
           />
-          <Button
-            size="$2"
-            chromeless
-            icon={<Search size={18} />}
-            onPress={async () => {
-              await schedulePushNotification()
-            }}
-          />
+          <Button size="$2" chromeless icon={<Search size={18} />} />
         </XStack>
         {!online && (
           <Card mt="$4" p="$4" theme="red_Card" backgroundColor="$red6Dark" elevate bordered>

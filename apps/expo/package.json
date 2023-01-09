@@ -42,7 +42,8 @@
     "react-native-svg": "^13.4.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.7",
-    "react-query": "^3.39.2"
+    "react-query": "^3.39.2",
+    "zustand": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",

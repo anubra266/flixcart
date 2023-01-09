@@ -50,6 +50,7 @@ export const fetchMovies = async (q: string): Promise<WatchListItem[]> => {
             runtime: details.runtime,
             image,
             summary: res.overview,
+            // airDate: new Date('2023-01-09T13:20:00.000Z'),
             airDate: new Date(res.release_date),
             status: details.status,
           },

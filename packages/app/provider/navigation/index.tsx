@@ -12,7 +12,6 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
             initialRouteName: 'home',
             screens: {
               home: '',
-              'user-detail': 'user/:id',
               'item-detail': 'detail/:type/:id',
               search: 'search/',
             },

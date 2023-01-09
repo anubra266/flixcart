@@ -5,7 +5,7 @@ import { ShowEpisode } from 'app/helpers/types'
 import { useState } from 'react'
 import * as Haptics from 'expo-haptics'
 import { toHoursAndMinutes, transformDate } from 'app/helpers/date'
-import { useStore } from 'app/hooks/useStore'
+import { toggleEpisodeStatus } from 'app/store/actions'
 
 type EpisodeDetailProps = {
   item: ShowEpisode
@@ -22,15 +22,13 @@ export function EpisodeDetail(props: EpisodeDetailProps) {
 
   const runTime = toHoursAndMinutes(item?.runtime!)
 
-  const { toggleEpisodeStatus } = useStore()
-
   const toggleWatched = () => {
-    toggleEpisodeStatus(showId, item?.id!)
     Haptics.notificationAsync(
       item?.watched
         ? Haptics.NotificationFeedbackType.Warning
         : Haptics.NotificationFeedbackType.Success
     )
+    toggleEpisodeStatus(showId, item?.id!)
   }
 
   return (

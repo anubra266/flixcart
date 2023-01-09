@@ -1,84 +1,169 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 import * as Notifications from 'expo-notifications'
 import * as Device from 'expo-device'
 import { Platform } from 'react-native'
+import { ShowEpisode, WatchListItem } from 'app/helpers/types'
+import { ItemType } from 'app/helpers/constants'
+import { useRouter } from 'solito/router'
+import { setEpisodeStatus } from 'app/store/actions'
 
-export const useNotification = () => {
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-      shouldSetBadge: false,
-    }),
-  })
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+})
 
-
-
-  const [expoPushToken, setExpoPushToken] = useState('')
-  const [notification, setNotification] = useState<any>(false)
-  const notificationListener = useRef<any>()
+export const useNotificationResponse = ({
+  callback,
+}: {
+  callback: (response: Notifications.NotificationResponse) => void
+}) => {
   const responseListener = useRef<any>()
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) => setExpoPushToken(token))
-
-    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-      setNotification(notification)
-    })
-
     responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-      console.log(response)
+      callback(response)
     })
 
     return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current)
       Notifications.removeNotificationSubscription(responseListener.current)
     }
   }, [])
+}
 
-  async function schedulePushNotification() {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "You've got mail! 📬",
-        body: 'Here is the notification body',
-        data: { data: 'goes here' },
+const actions = ['markWatched'] as const
+type Action = typeof actions[number]
+
+export const useNotification = () => {
+  const { push } = useRouter()
+
+  useNotificationResponse({
+    callback(response) {
+      const url = response.notification.request.content.data.url as string
+      const identifier = response.actionIdentifier as Action
+      if (!actions.includes(identifier)) {
+        push(url)
+      }
+    },
+  })
+
+  useEffect(() => {
+    registerForPushNotificationsAsync()
+
+    const subscription = Notifications.addNotificationResponseReceivedListener(async (response) => {
+      const identifier = response.actionIdentifier as Action
+
+      if (identifier === 'markWatched') {
+        const notificationData = response.notification.request.content.data as Record<string, any>
+        setEpisodeStatus(notificationData.itemId, notificationData.episodeId, true)
+      }
+      await Notifications.dismissNotificationAsync(response.notification.request.identifier)
+    })
+    return () => subscription.remove()
+  }, [])
+}
+
+const getEpisodeTime = (episode: ShowEpisode) => {
+  if (!episode.airDate) return
+  const episodeDate = new Date(episode.airDate)
+  //? Send notifications at 6am of release day - comment out when testing to allow exact time
+  episodeDate.setHours(6, 0, 0, 0)
+  const time = (episodeDate.getTime() - Date.now()) / 1000
+  return time
+}
+
+const getNotificationDetails = (item: WatchListItem, episode: ShowEpisode) => {
+  const title = item.type === ItemType.MOVIE ? 'Movie Release' : 'TV Show New Episode'
+  const body =
+    item.type === ItemType.MOVIE
+      ? `${item.name} releases today!`
+      : `${item.name} Season ${episode.season} ${episode.name} airs today!`
+
+  const time = getEpisodeTime(episode)
+
+  return { title, body, time }
+}
+
+export async function schedulePushNotification(item: WatchListItem, episode: ShowEpisode) {
+  const { title, body, time } = getNotificationDetails(item, episode)
+
+  if (!time) return null
+
+  const id = await Notifications.scheduleNotificationAsync({
+    content: {
+      title,
+      body,
+      data: {
+        url: `/detail/${item.type.toLocaleLowerCase()}/${item.id}`,
+        itemId: item.id,
+        episodeId: episode.id,
       },
-      trigger: { seconds: 2 },
+      categoryIdentifier: 'reminder',
+    },
+    trigger: { seconds: time },
+  })
+
+  const actions = [
+    {
+      identifier: 'markWatched',
+      buttonTitle: 'Mark as watched',
+      options: {
+        // isAuthenticationRequired?: boolean,
+        opensAppToForeground: false,
+      },
+    },
+  ]
+
+  await Notifications.setNotificationCategoryAsync('reminder', actions)
+
+  return id
+}
+
+export async function registerForPushNotificationsAsync() {
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+      lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
+      bypassDnd: true,
     })
   }
 
-  async function registerForPushNotificationsAsync() {
-    let token
-
-    if (Platform.OS === 'android') {
-      await Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
-      })
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync()
+    let finalStatus = existingStatus
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync()
+      finalStatus = status
     }
-
-    if (Device.isDevice) {
-      const { status: existingStatus } = await Notifications.getPermissionsAsync()
-      let finalStatus = existingStatus
-      if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync()
-        finalStatus = status
-      }
-      if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!')
-        return
-      }
-      token = (await Notifications.getExpoPushTokenAsync()).data
-      console.log(token)
-    } else {
-      alert('Must use physical device for Push Notifications')
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!')
+      return
     }
-
-    return token
+  } else {
+    alert('Must use physical device for Push Notifications')
   }
+}
 
-  return { schedulePushNotification }
+export async function cancelNotification(notifId: string) {
+  await Notifications.cancelScheduledNotificationAsync(notifId)
+}
+
+export const scheduleEpisodetNotifications = async (item: WatchListItem) => {
+  const episodes = await Promise.all(
+    item.episodes.map(async (episode) => {
+      const notificationId = await schedulePushNotification(item, episode)
+
+      return {
+        ...episode,
+        notificationId,
+      }
+    })
+  )
+  return episodes
 }

@@ -10,12 +10,14 @@ import {
   Button,
   Paragraph,
 } from '@my/ui'
-import { DEFAULT_IMAGE, ItemType } from 'app/helpers/constants'
+import { DEFAULT_IMAGE } from 'app/helpers/constants'
 import React, { useState } from 'react'
 import { BookmarkPlus, X, Star } from '@tamagui/lucide-icons'
 import * as Haptics from 'expo-haptics'
 import { WatchListItem as IWatchListItem } from 'app/helpers/types'
-import { useStore } from 'app/hooks/useStore'
+import {} from 'solito'
+import { useNotificationResponse } from 'app/hooks/useNotification'
+import { addItemToWatchList, removeItemFromWatchList, useItemInWatchList } from 'app/store/actions'
 
 interface WatchListItemProps extends CardProps {
   item: IWatchListItem
@@ -28,9 +30,13 @@ export function WatchListItem(props: WatchListItemProps) {
   const [open, setOpen] = useState(false)
   const [position, setPosition] = useState(0)
 
-  const { addItemToWatchList, getItemInWatchList, removeItemFromWatchList } = useStore()
+  const itemInWatchList = useItemInWatchList(item.id)
 
-  const itemInWatchList = getItemInWatchList(item)
+  useNotificationResponse({
+    callback() {
+      setOpen(false)
+    },
+  })
 
   return (
     <>
@@ -121,8 +127,8 @@ export function WatchListItem(props: WatchListItemProps) {
                 opacity={itemInWatchList ? 0.7 : 1}
                 icon={<BookmarkPlus size={24} />}
                 onPress={() => {
-                  addItemToWatchList(item)
                   Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+                  addItemToWatchList(item)
                 }}
               >
                 {itemInWatchList && 'Added'}
@@ -134,8 +140,8 @@ export function WatchListItem(props: WatchListItemProps) {
                   circular
                   icon={<X size={24} />}
                   onPress={() => {
-                    removeItemFromWatchList(item.id)
                     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+                    removeItemFromWatchList(item.id)
                   }}
                 />
               )}

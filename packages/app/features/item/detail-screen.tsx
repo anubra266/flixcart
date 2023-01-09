@@ -1,10 +1,10 @@
 import { YStack, SafeAreaStack } from '@my/ui'
 import { ItemType } from 'app/helpers/constants'
-import { useStore } from 'app/hooks/useStore'
 import React from 'react'
 import { createParam } from 'solito'
 import { MovieDetail } from 'app/features/item/movie-detail'
 import { ShowDetail } from 'app/features/item/show-detail'
+import { useWatchListItem } from 'app/store/actions'
 
 const { useParam } = createParam<{ id: string; type: ItemType }>()
 
@@ -12,9 +12,7 @@ export function ItemDetailScreen() {
   const [id] = useParam('id')
   const [itemType] = useParam('type')
 
-  const { getWatchListItem } = useStore()
-
-  const item = getWatchListItem(id!)
+  const item = useWatchListItem(id!)
 
   const renderDetail = () => {
     if (!item) return

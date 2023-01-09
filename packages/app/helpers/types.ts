@@ -22,4 +22,5 @@ export type ShowEpisode = {
   airDate: Date | null
   status: string | null
   watched?: boolean
+  notificationId: string | null
 }

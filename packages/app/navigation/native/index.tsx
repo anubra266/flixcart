@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { ItemDetailScreen } from 'app/features/item/detail-screen'
 import { WatchListScreen } from 'app/features/watchlist/screen'
 import { SearchScreen } from 'app/features/search/screen'
+import { useNotification } from 'app/hooks/useNotification'
 
 const Stack = createNativeStackNavigator<{
   home: undefined
@@ -21,6 +22,8 @@ const Stack = createNativeStackNavigator<{
 }>()
 
 export function NativeNavigation() {
+  useNotification()
+
   return (
     <Stack.Navigator>
       <Stack.Screen

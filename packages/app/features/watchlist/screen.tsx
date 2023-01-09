@@ -5,24 +5,19 @@ import React from 'react'
 import { WatchListItem } from 'app/components/WatchListItem'
 import { HoldItem } from 'react-native-hold-menu'
 
-import { useStore } from 'app/hooks/useStore'
 import { useLink } from 'solito/link'
 import { useRouter } from 'solito/router'
 import { ItemType } from 'app/helpers/constants'
 import * as Haptics from 'expo-haptics'
-import { useNotification } from 'app/hooks/useNotification'
+import { removeItemFromWatchList } from 'app/store/actions'
+import { useStore } from 'app/store'
 
 export function WatchListScreen() {
-  const { watchlist, removeItemFromWatchList } = useStore()
-
   const searchLinkProps = useLink({
     href: `/search`,
   })
 
   const { push } = useRouter()
-
-  // So the apps asks for permissions when the user first opens the app
-  useNotification()
 
   const MenuItems = [
     {
@@ -42,6 +37,8 @@ export function WatchListScreen() {
       },
     },
   ]
+
+  const watchlist = useStore((state) => state.watchlist)
 
   return (
     <SafeAreaStack f={1}>
