@@ -15,8 +15,7 @@
     "production": {
       "distribution": "store",
       "android": {
-        "buildType": "apk"
-        // "buildType": "app-bundle"
+        "buildType": "app-bundle"
       }
     }
   }
