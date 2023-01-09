@@ -7,13 +7,11 @@ export const getWatchListItem = (id: string) =>
   getState().watchlist.find((li) => li.id.toString() === id.toString())
 
 export const useWatchListItem = (id: string) => {
-  const watchlist = useStore((state) => state.watchlist)
-  return watchlist.find((li) => li.id.toString() === id.toString())
+  return useStore((state) => state.watchlist.find((li) => li.id.toString() === id.toString()))
 }
 
 export const useItemInWatchList = (id: string) => {
-  const watchlist = useStore((state) => state.watchlist)
-  return watchlist.some((li) => li.id === id)
+  return useStore((state) => state.watchlist.some((li) => li.id === id))
 }
 
 export const addItemToWatchList = async (item: WatchListItem) => {
