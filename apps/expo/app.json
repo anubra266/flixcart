@@ -18,7 +18,8 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anubra266.flixcart"
+      "bundleIdentifier": "com.anubra266.flixcart",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
