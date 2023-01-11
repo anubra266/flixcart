@@ -1,4 +1,14 @@
-import { Button, H1, Paragraph, Separator, XStack, YStack, Stack, SafeAreaStack } from '@my/ui'
+import {
+  Button,
+  H1,
+  Paragraph,
+  Separator,
+  XStack,
+  YStack,
+  Stack,
+  SafeAreaStack,
+  ScrollView,
+} from '@my/ui'
 import { AlignLeft, Plus } from '@tamagui/lucide-icons'
 import React from 'react'
 
@@ -49,33 +59,35 @@ export function WatchListScreen() {
           <Button themeInverse size="$2" icon={<Plus size={18} />} circular {...searchLinkProps} />
         </XStack>
         {!!watchlist.length && (
-          <YStack f={1} width="100%" space="$1">
-            {watchlist.map((item) => (
-              <HoldItem
-                menuAnchorPosition="top-left"
-                hapticFeedback="Heavy"
-                items={MenuItems}
-                key={item.id}
-                actionParams={{
-                  View: [item.id, item.type],
-                  Remove: [item.id],
-                }}
-              >
-                <WatchListItem
-                  paddingVertical="$2"
-                  height={120}
-                  backgroundColor="$backgroundStrong"
-                  item={item}
-                  pressStyle={{ scale: 1.2 }}
-                  onPress={() => {
-                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-                    push(`/detail/${item.type.toLocaleLowerCase()}/${item.id}`)
+          <ScrollView>
+            <YStack f={1} width="100%" space="$1">
+              {watchlist.map((item) => (
+                <HoldItem
+                  menuAnchorPosition="top-left"
+                  hapticFeedback="Heavy"
+                  items={MenuItems}
+                  key={item.id}
+                  actionParams={{
+                    View: [item.id, item.type],
+                    Remove: [item.id],
                   }}
-                  hoverStyle={undefined}
-                />
-              </HoldItem>
-            ))}
-          </YStack>
+                >
+                  <WatchListItem
+                    paddingVertical="$2"
+                    height={120}
+                    backgroundColor="$backgroundStrong"
+                    item={item}
+                    pressStyle={{ scale: 1.2 }}
+                    onPress={() => {
+                      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+                      push(`/detail/${item.type.toLocaleLowerCase()}/${item.id}`)
+                    }}
+                    hoverStyle={undefined}
+                  />
+                </HoldItem>
+              ))}
+            </YStack>
+          </ScrollView>
         )}
         {!watchlist.length && (
           <YStack f={1} jc="center" ai="center" p="$4" space>
