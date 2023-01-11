@@ -18,5 +18,8 @@
         "buildType": "app-bundle"
       }
     }
+  },
+  "cli": {
+    "promptToConfigurePushNotifications": false
   }
 }
