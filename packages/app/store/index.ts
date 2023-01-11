@@ -8,7 +8,9 @@ import { WatchListItem } from 'app/helpers/types'
 const asyncStorage: StateStorage = {
   async getItem(name) {
     try {
-      return await AsyncStorage.getItem(name)
+      const item = await AsyncStorage.getItem(name)
+      if (!item) return
+      return JSON.parse(item)
     } catch (e) {
       // read error
       return null
@@ -17,7 +19,7 @@ const asyncStorage: StateStorage = {
 
   async setItem(name, newValue) {
     try {
-      return await AsyncStorage.setItem(name, newValue)
+      return await AsyncStorage.setItem(name, JSON.stringify(newValue))
     } catch (e) {
       // set error
     }
