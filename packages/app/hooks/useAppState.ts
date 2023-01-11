@@ -11,9 +11,9 @@ type AppStateStatus = Parameters<Parameters<typeof AppState.addEventListener>[1]
 
 export function useAppState(onChange: (state: AppStateStatus) => void) {
   useEffect(() => {
-    AppState.addEventListener('change', onChange)
+    if (AppState) AppState.addEventListener('change', onChange)
     return () => {
-      AppState.removeEventListener('change', onChange)
+      if (AppState) AppState.removeEventListener('change', onChange)
     }
   }, [onChange])
 }

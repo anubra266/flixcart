@@ -79,7 +79,7 @@ const getNotificationDetails = (item: WatchListItem, episode: ShowEpisode) => {
   const title = item.type === ItemType.MOVIE ? 'Movie Release' : 'TV Show New Episode'
   const body =
     item.type === ItemType.MOVIE
-      ? `${item.name} releases today!`
+      ? `${item.name} premiers today!`
       : `${item.name} Season ${episode.season} ${episode.name} airs today!`
 
   const time = getEpisodeTime(episode)

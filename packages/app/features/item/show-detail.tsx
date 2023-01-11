@@ -38,7 +38,7 @@ export function ShowDetail(props: ShowDetailProps) {
         </H2>
       </XStack>
       <Separator />
-      <ScrollView space="$6" padding="$4"  >
+      <ScrollView space="$6" padding="$4">
         <YStack f={1} paddingBottom={100}>
           {seasonGroups.map((seasonGroup) => (
             <SeasonDetail key={seasonGroup[0]} seasonGroup={seasonGroup} show={item} />

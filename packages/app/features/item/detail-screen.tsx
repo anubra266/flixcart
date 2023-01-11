@@ -1,6 +1,6 @@
 import { YStack, SafeAreaStack } from '@my/ui'
 import { ItemType } from 'app/helpers/constants'
-import React from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { createParam } from 'solito'
 import { MovieDetail } from 'app/features/item/movie-detail'
 import { ShowDetail } from 'app/features/item/show-detail'
@@ -14,16 +14,23 @@ export function ItemDetailScreen() {
 
   const item = useWatchListItem(id!)
 
-  const renderDetail = () => {
-    if (!item) return
-    return (
-      <YStack f={1}>
-        {itemType === ItemType.MOVIE && <MovieDetail item={item} />}
+  useEffect(() => {
+    console.log('item', item)
+  }, [item])
 
-        {itemType === ItemType.SHOW && <ShowDetail item={item} />}
-      </YStack>
-    )
-  }
+  const renderDetail = useMemo(
+    () => () => {
+      if (!item) return
+      return (
+        <YStack f={1}>
+          {itemType === ItemType.MOVIE && <MovieDetail item={item} />}
+
+          {itemType === ItemType.SHOW && <ShowDetail item={item} />}
+        </YStack>
+      )
+    },
+    [item]
+  )
 
   return <SafeAreaStack f={1}>{renderDetail()}</SafeAreaStack>
 }

@@ -10,13 +10,15 @@
       "ios": {
         "simulator": true,
         "image": "latest"
-      }
+      },
+      "channel": "development"
     },
     "production": {
       "distribution": "store",
       "android": {
         "buildType": "app-bundle"
-      }
+      },
+      "channel": "production"
     }
   },
   "cli": {

@@ -48,7 +48,7 @@ export function WatchListScreen() {
     },
   ]
 
-  const watchlist = useStore((state) => state.watchlist)
+  const watchlist = useStore((state) => state.watchlist.sort((a, b) => (a.name > b.name ? 1 : -1)))
 
   return (
     <SafeAreaStack f={1}>
