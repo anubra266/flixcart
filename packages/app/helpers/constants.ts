@@ -5,4 +5,4 @@ export enum ItemType {
   MOVIE = 'movie',
 }
 
-export const WATCHLIST_STORE = '@watchlist'
+export const WATCHLIST_STORE = 'watchlist'

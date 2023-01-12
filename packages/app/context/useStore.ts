@@ -1,4 +1,5 @@
-import { useAsyncStorage } from '@react-native-async-storage/async-storage'
+import * as SecureStore from 'expo-secure-store'
+
 import { useState, useEffect, useMemo } from 'react'
 import { WATCHLIST_STORE } from 'app/helpers/constants'
 import { WatchListItem } from 'app/helpers/types'
@@ -6,17 +7,14 @@ import { WatchListItem } from 'app/helpers/types'
 export const useStore = () => {
   const [watchlist, setWatchList] = useState<WatchListItem[]>([])
 
-  const { getItem, setItem, removeItem } = useAsyncStorage(WATCHLIST_STORE)
-
   const readItemFromStorage = async () => {
-    const items = await getItem()
-    // await removeItem()
+    const items = await SecureStore.getItemAsync(WATCHLIST_STORE)
     setWatchList(items ? JSON.parse(items) : [])
   }
 
   const writeItemToStorage = async (newValues: WatchListItem[]) => {
-    await setItem(JSON.stringify(newValues))
     setWatchList(newValues)
+    await SecureStore.setItemAsync(WATCHLIST_STORE, JSON.stringify(newValues))
   }
 
   const addItemToWatchList = async (item: WatchListItem) => {
