@@ -6,7 +6,7 @@ import { Platform } from 'react-native'
 import { ShowEpisode, WatchListItem } from 'app/helpers/types'
 import { ItemType } from 'app/helpers/constants'
 import { useRouter } from 'solito/router'
-import { setEpisodeStatus } from 'app/store/actions'
+import { useFlixcartContext } from 'app/context'
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -39,6 +39,8 @@ type Action = typeof actions[number]
 
 export const useNotification = () => {
   const { push } = useRouter()
+
+  const { setEpisodeStatus } = useFlixcartContext('flixcart')
 
   useNotificationResponse({
     callback(response) {

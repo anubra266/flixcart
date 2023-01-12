@@ -9,7 +9,8 @@
       },
       "ios": {
         "simulator": true,
-        "image": "latest"
+        "image": "latest",
+        "resourceClass": "m1-medium"
       },
       "channel": "development"
     },
@@ -17,6 +18,9 @@
       "distribution": "store",
       "android": {
         "buildType": "app-bundle"
+      },
+      "ios": {
+        "resourceClass": "m1-medium"
       },
       "channel": "production"
     }

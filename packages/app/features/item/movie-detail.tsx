@@ -8,7 +8,7 @@ import * as Haptics from 'expo-haptics'
 import { DEFAULT_IMAGE } from 'app/helpers/constants'
 import { toHoursAndMinutes, transformDate } from 'app/helpers/date'
 import { useRouter } from 'solito/router'
-import { removeItemFromWatchList, toggleEpisodeStatus } from 'app/store/actions'
+import { useFlixcartContext } from 'app/context'
 
 type MovieDetailProps = {
   item: WatchListItem
@@ -17,6 +17,8 @@ export function MovieDetail(props: MovieDetailProps) {
   const { item } = props
 
   const backLinkProps = useLink({ href: '/' })
+
+  const { removeItemFromWatchList, toggleEpisodeStatus } = useFlixcartContext('flixcart')
 
   const movie = item.episodes[0]
 

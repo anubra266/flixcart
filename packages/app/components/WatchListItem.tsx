@@ -17,7 +17,7 @@ import * as Haptics from 'expo-haptics'
 import { WatchListItem as IWatchListItem } from 'app/helpers/types'
 import {} from 'solito'
 import { useNotificationResponse } from 'app/hooks/useNotification'
-import { addItemToWatchList, removeItemFromWatchList, useItemInWatchList } from 'app/store/actions'
+import { useFlixcartContext } from 'app/context'
 
 interface WatchListItemProps extends CardProps {
   item: IWatchListItem
@@ -27,10 +27,13 @@ interface WatchListItemProps extends CardProps {
 export function WatchListItem(props: WatchListItemProps) {
   const { item, search, ...rest } = props
 
+  const { getItemInWatchList, addItemToWatchList, removeItemFromWatchList } =
+    useFlixcartContext('flixcart')
+
   const [open, setOpen] = useState(false)
   const [position, setPosition] = useState(0)
 
-  const itemInWatchList = useItemInWatchList(item.id)
+  const itemInWatchList = getItemInWatchList(item)
 
   useNotificationResponse({
     callback() {

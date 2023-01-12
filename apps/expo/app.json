@@ -3,14 +3,14 @@
     "name": "flixcart",
     "slug": "flixcart",
     "scheme": "flixcart",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0,
@@ -22,7 +22,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anubra266.flixcart",
-      "buildNumber": "1",
+      "buildNumber": "2",
       "appleId": "anubra266@gmail.com",
       "ascAppId": "1663941024"
     },

@@ -1,10 +1,10 @@
 import { YStack, SafeAreaStack } from '@my/ui'
 import { ItemType } from 'app/helpers/constants'
-import React, { useMemo, useEffect } from 'react'
+import React, { useMemo } from 'react'
 import { createParam } from 'solito'
 import { MovieDetail } from 'app/features/item/movie-detail'
 import { ShowDetail } from 'app/features/item/show-detail'
-import { useWatchListItem } from 'app/store/actions'
+import { useFlixcartContext } from 'app/context'
 
 const { useParam } = createParam<{ id: string; type: ItemType }>()
 
@@ -12,11 +12,9 @@ export function ItemDetailScreen() {
   const [id] = useParam('id')
   const [itemType] = useParam('type')
 
-  const item = useWatchListItem(id!)
+  const { getWatchListItem } = useFlixcartContext('flixcart')
 
-  useEffect(() => {
-    console.log('item', item)
-  }, [item])
+  const item = getWatchListItem(id!)
 
   const renderDetail = useMemo(
     () => () => {

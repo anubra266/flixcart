@@ -1,9 +1,9 @@
 import { YStack, XStack, Circle, Text } from '@my/ui'
 import { Check } from '@tamagui/lucide-icons'
+import { useFlixcartContext } from 'app/context'
 import { EpisodeDetail } from 'app/features/item/episode-detail'
 
 import { ShowEpisode, WatchListItem } from 'app/helpers/types'
-import { setSeasonStatus } from 'app/store/actions'
 
 import * as Haptics from 'expo-haptics'
 
@@ -14,6 +14,8 @@ type SeasonDetailProps = {
 
 export function SeasonDetail(props: SeasonDetailProps) {
   const { seasonGroup, show } = props
+
+  const { setSeasonStatus } = useFlixcartContext('flixcart')
 
   const [season, episodes] = seasonGroup
 

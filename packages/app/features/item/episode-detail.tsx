@@ -5,7 +5,7 @@ import { ShowEpisode } from 'app/helpers/types'
 import { useState } from 'react'
 import * as Haptics from 'expo-haptics'
 import { toHoursAndMinutes, transformDate } from 'app/helpers/date'
-import { toggleEpisodeStatus } from 'app/store/actions'
+import { useFlixcartContext } from 'app/context'
 
 type EpisodeDetailProps = {
   item: ShowEpisode
@@ -17,6 +17,8 @@ export function EpisodeDetail(props: EpisodeDetailProps) {
 
   const [open, setOpen] = useState(false)
   const [position, setPosition] = useState(0)
+
+  const { toggleEpisodeStatus } = useFlixcartContext('flixcart')
 
   const [airPeriod, airDate] = transformDate(item?.airDate!, ItemType.SHOW)
 

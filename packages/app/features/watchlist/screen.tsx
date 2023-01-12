@@ -19,13 +19,14 @@ import { useLink } from 'solito/link'
 import { useRouter } from 'solito/router'
 import { ItemType } from 'app/helpers/constants'
 import * as Haptics from 'expo-haptics'
-import { removeItemFromWatchList } from 'app/store/actions'
-import { useStore } from 'app/store'
+import { useFlixcartContext } from 'app/context'
 
 export function WatchListScreen() {
   const searchLinkProps = useLink({
     href: `/search`,
   })
+
+  const { removeItemFromWatchList, watchlist: unsortedWatchList } = useFlixcartContext('flixcart')
 
   const { push } = useRouter()
 
@@ -48,7 +49,7 @@ export function WatchListScreen() {
     },
   ]
 
-  const watchlist = useStore((state) => state.watchlist.sort((a, b) => (a.name > b.name ? 1 : -1)))
+  const watchlist = unsortedWatchList.sort((a, b) => (a.name > b.name ? 1 : -1))
 
   return (
     <SafeAreaStack f={1}>
