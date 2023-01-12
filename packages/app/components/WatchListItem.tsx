@@ -93,79 +93,81 @@ export function WatchListItem(props: WatchListItemProps) {
         dismissOnSnapToBottom
       >
         <Sheet.Overlay />
-        <Sheet.Frame backgroundColor="$backgroundStrong" p="$4">
+        <Sheet.Frame backgroundColor="$backgroundStrong">
           <Sheet.Handle />
-          <Stack position="relative">
-            <Button
-              backgroundColor="rgba(0,0,0,0.7)"
-              icon={<X size={20} />}
-              circular
-              position="absolute"
-              top={10}
-              left={10}
-              zi={2}
-              onPress={() => setOpen(false)}
-            />
-            <Image borderRadius={8} src={item.image || DEFAULT_IMAGE} height={600} width="100%" />
-          </Stack>
-          <Stack
-            width="100%"
-            // backgroundColor="rgba(0,0,0,0.9)"
-            padding="$4"
-            space="$2"
-          >
-            <Text
-              ta="center"
-              fontSize={20}
-              fontWeight="600"
-              textTransform="uppercase"
-              color="white"
-            >
-              {item.name}
-            </Text>
-            <XStack justifyContent="center" alignItems="center" space="$4">
+          <Sheet.ScrollView p="$4">
+            <Stack position="relative">
               <Button
-                disabled={itemInWatchList}
-                circular={!itemInWatchList}
-                opacity={itemInWatchList ? 0.7 : 1}
-                icon={<BookmarkPlus size={24} />}
-                onPress={() => {
-                  Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
-                  addItemToWatchList(item)
-                }}
-              >
-                {itemInWatchList && 'Added'}
-              </Button>
-
-              {itemInWatchList && (
-                <Button
-                  theme="red_Button"
-                  circular
-                  icon={<X size={24} />}
-                  onPress={() => {
-                    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
-                    removeItemFromWatchList(item.id)
-                  }}
-                />
-              )}
-            </XStack>
-          </Stack>
-
-          <Stack space="$4" marginTop="$1">
-            <Text ta="center" color="white" fontWeight="700" fontSize={16}>
-              {item.genres?.map((genre, i, arr) => `${genre}${i !== arr.length - 1 ? ', ' : ''}`)}
-            </Text>
-            <Paragraph
-              paddingHorizontal="$5"
-              numberOfLines={3}
-              ta="center"
-              fontSize={12}
-              lineHeight={16}
-              color="gray"
+                backgroundColor="rgba(0,0,0,0.7)"
+                icon={<X size={20} />}
+                circular
+                position="absolute"
+                top={10}
+                left={10}
+                zi={2}
+                onPress={() => setOpen(false)}
+              />
+              <Image borderRadius={8} src={item.image || DEFAULT_IMAGE} height={600} width="100%" />
+            </Stack>
+            <Stack
+              width="100%"
+              // backgroundColor="rgba(0,0,0,0.9)"
+              padding="$4"
+              space="$2"
             >
-              {item.summary?.replace(/(<([^>]+)>)/gi, '')}
-            </Paragraph>
-          </Stack>
+              <Text
+                ta="center"
+                fontSize={20}
+                fontWeight="600"
+                textTransform="uppercase"
+                color="white"
+              >
+                {item.name}
+              </Text>
+              <XStack justifyContent="center" alignItems="center" space="$4">
+                <Button
+                  disabled={itemInWatchList}
+                  circular={!itemInWatchList}
+                  opacity={itemInWatchList ? 0.7 : 1}
+                  icon={<BookmarkPlus size={24} />}
+                  onPress={() => {
+                    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+                    addItemToWatchList(item)
+                  }}
+                >
+                  {itemInWatchList && 'Added'}
+                </Button>
+
+                {itemInWatchList && (
+                  <Button
+                    theme="red_Button"
+                    circular
+                    icon={<X size={24} />}
+                    onPress={() => {
+                      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+                      removeItemFromWatchList(item.id)
+                    }}
+                  />
+                )}
+              </XStack>
+            </Stack>
+
+            <Stack space="$4" marginTop="$1">
+              <Text ta="center" color="white" fontWeight="700" fontSize={16}>
+                {item.genres?.map((genre, i, arr) => `${genre}${i !== arr.length - 1 ? ', ' : ''}`)}
+              </Text>
+              <Paragraph
+                paddingHorizontal="$5"
+                numberOfLines={3}
+                ta="center"
+                fontSize={12}
+                lineHeight={16}
+                color="gray"
+              >
+                {item.summary?.replace(/(<([^>]+)>)/gi, '')}
+              </Paragraph>
+            </Stack>
+          </Sheet.ScrollView>
         </Sheet.Frame>
       </Sheet>
     </>

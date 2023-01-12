@@ -53,15 +53,15 @@ export function WatchListScreen() {
 
   return (
     <SafeAreaStack f={1}>
-      <Stack f={1} p="$4">
-        <XStack alignItems="center" jc="space-between">
+      <Stack f={1}>
+        <XStack alignItems="center" jc="space-between" p="$4">
           <XStack />
           {/* <Button padding={0} chromeless icon={<AlignLeft size={24} />} /> */}
           <Button themeInverse size="$2" icon={<Plus size={18} />} circular {...searchLinkProps} />
         </XStack>
         {!!watchlist.length && (
-          <ScrollView>
-            <YStack f={1} width="100%" space="$1">
+          <ScrollView p="$4">
+            <YStack f={1} width="100%" space="$1" paddingBottom="$12">
               {watchlist.map((item) => (
                 <HoldItem
                   menuAnchorPosition="top-left"
