@@ -20,7 +20,7 @@
         "buildType": "app-bundle"
       },
       "ios": {
-        "resourceClass": "m1-medium"
+        // "resourceClass": "m1-medium"
       },
       "channel": "production"
     }
