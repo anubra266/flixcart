@@ -15,6 +15,7 @@ export type WatchListItem = {
 export type ShowEpisode = {
   id: string
   name: string
+  number: number
   season: number
   runtime: number | null
   image: string | null

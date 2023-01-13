@@ -30,6 +30,8 @@ export function SeasonDetail(props: SeasonDetailProps) {
     setSeasonStatus(show.id, season, !isWatched)
   }
 
+  const sortedEpisodes = episodes.sort((a, b) => b.number - a.number)
+
   return (
     <YStack key={`Season-${season}`} space>
       <XStack ai="center" marginVertical="$4">
@@ -48,7 +50,7 @@ export function SeasonDetail(props: SeasonDetailProps) {
         </Circle>
       </XStack>
       <YStack key={`Season-${season}`} space>
-        {episodes.map((episode) => (
+        {sortedEpisodes.map((episode) => (
           <EpisodeDetail showId={show.id} item={episode} key={episode.id} />
         ))}
       </YStack>

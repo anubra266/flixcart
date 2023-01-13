@@ -4,16 +4,23 @@ import axios from 'axios'
 
 const fetchEpisodes = async (id: string): Promise<ShowEpisode[]> => {
   const { data } = await axios.get(`https://api.tvmaze.com/shows/${id}/episodes`)
-  const transformedData = data.map((res) => ({
-    id: res.id,
-    name: res.name,
-    season: res.season,
-    runtime: res.runtime,
-    image: res.image?.original,
-    summary: res.summary,
-    // airDate: new Date('2023-01-09T15:42:00.000Z'),
-    airDate: new Date(res.airstamp),
-  }))
+  const transformedData = data.map((res) => {
+    const optionalEpisode = res.name.toLocaleLowerCase().includes('episode')
+      ? ''
+      : `Episode ${res.number} - `
+
+    return {
+      id: res.id,
+      name: `${optionalEpisode}${res.name}`,
+      season: res.season,
+      runtime: res.runtime,
+      image: res.image?.original,
+      summary: res.summary,
+      number: res.number,
+      // airDate: new Date('2023-01-09T15:42:00.000Z'),
+      airDate: new Date(res.airstamp),
+    }
+  })
   return transformedData
 }
 
