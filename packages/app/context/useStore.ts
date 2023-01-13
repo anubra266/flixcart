@@ -1,23 +1,45 @@
-import * as SecureStore from 'expo-secure-store'
-
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useState, useEffect, useMemo } from 'react'
 import { WATCHLIST_STORE } from 'app/helpers/constants'
 import { WatchListItem } from 'app/helpers/types'
 
+const storeData = async (value: WatchListItem[]) => {
+  try {
+    const jsonValue = JSON.stringify(value)
+    await AsyncStorage.setItem(WATCHLIST_STORE, jsonValue)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+const getData = async () => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(WATCHLIST_STORE)
+    return jsonValue != null ? (JSON.parse(jsonValue) as WatchListItem[]) : null
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 export const useStore = () => {
   const [watchlist, setWatchList] = useState<WatchListItem[]>([])
 
-  const readItemFromStorage = async () => {
-    const items = await SecureStore.getItemAsync(WATCHLIST_STORE)
-    setWatchList(items ? JSON.parse(items) : [])
+  const readItemFromStorage = () => {
+    getData()
+      .then((value) => {
+        setWatchList(value || [])
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   }
 
-  const writeItemToStorage = async (newValues: WatchListItem[]) => {
+  const writeItemToStorage = (newValues: WatchListItem[]) => {
+    storeData(newValues)
     setWatchList(newValues)
-    await SecureStore.setItemAsync(WATCHLIST_STORE, JSON.stringify(newValues))
   }
 
-  const addItemToWatchList = async (item: WatchListItem) => {
+  const addItemToWatchList = (item: WatchListItem) => {
     writeItemToStorage([
       ...watchlist,
       {
@@ -33,12 +55,12 @@ export const useStore = () => {
     ])
   }
 
-  const removeItemFromWatchList = async (id: string) => {
+  const removeItemFromWatchList = (id: string) => {
     const newItems = watchlist.filter((item) => item.id !== id)
     writeItemToStorage(newItems)
   }
 
-  const updateWatchListItem = async (item: WatchListItem) => {
+  const updateWatchListItem = (item: WatchListItem) => {
     const items = [...watchlist]
     const itemIndex = items.findIndex((it) => it.id.toString() === item.id.toString())
     items.splice(itemIndex, 1, item)
